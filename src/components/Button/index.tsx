@@ -1,14 +1,21 @@
 import { TouchableOpacityProps } from "react-native";
-import { Container, Icon, Title } from "./styles";
+import { Container, Icon, Title, ButtonStyleProps } from "./styles";
 
-type Props = TouchableOpacityProps & {
-  title: string;
-};
+type Props = TouchableOpacityProps &
+  ButtonStyleProps & {
+    title: string;
+    showIcon?: boolean;
+  };
 
-export function Button({ title, ...rest }: Props) {
+export function Button({
+  title,
+  showIcon = false,
+  isFeedback = false,
+  ...rest
+}: Props) {
   return (
-    <Container {...rest}>
-      <Icon />
+    <Container isFeedback={isFeedback} {...rest}>
+      {showIcon && <Icon />}
       <Title>{title}</Title>
     </Container>
   );

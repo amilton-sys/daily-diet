@@ -2,8 +2,12 @@ import styled, { css } from "styled-components/native";
 import { Plus } from "phosphor-react-native";
 import { TouchableOpacity } from "react-native";
 
-export const Container = styled(TouchableOpacity)`
-  width: 100%;
+export type ButtonStyleProps = {
+  isFeedback?: boolean;
+}
+
+export const Container = styled(TouchableOpacity)<ButtonStyleProps>`
+  width: ${({ isFeedback }) => isFeedback ? "200px" : "330px"};
   height: 50px;
   flex-direction: row;
 
@@ -12,6 +16,7 @@ export const Container = styled(TouchableOpacity)`
 
   align-items: center;
   justify-content: center;
+  align-items: center;
   margin-bottom: 15px;
 `;
 
@@ -21,7 +26,6 @@ export const Icon = styled(Plus).attrs(({ theme }) => ({
 }))``;
 
 export const Title = styled.Text`
-  text-align: center;
   margin-left: 10px;
   ${({ theme }) => css`
     color: ${theme.COLORS.WHITE};

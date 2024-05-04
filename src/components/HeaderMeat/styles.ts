@@ -2,13 +2,25 @@ import styled, { css } from "styled-components/native";
 import { ArrowLeft } from "phosphor-react-native";
 import { TouchableOpacity } from "react-native";
 
-export const Container = styled.View`
+export type VisualizationStyleProps = {
+  isLow?: boolean;
+  isDefault?: boolean;
+};
+
+export const Container = styled.View<VisualizationStyleProps>`
   width: 100%;
   height: 120px;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  background-color: ${({ theme }) => theme.COLORS.GRAY_500};
+  ${({ theme, isLow }) => css`
+    background-color: ${isLow
+      ? theme.COLORS.RED_LIGHT
+      : theme.COLORS.GREEN_LIGHT};
+  `};
+  ${({ theme, isDefault }) => isDefault && css`
+      background-color: ${theme.COLORS.GRAY_500};
+  `};
 `;
 
 export const Button = styled(TouchableOpacity)``;

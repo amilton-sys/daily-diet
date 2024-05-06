@@ -1,23 +1,20 @@
 import { Button } from "@components/Button";
-import {
-  Container,
-  Image,
-  Strong,
-  SubTitle,
-  FeedbackStyleProps,
-  Title,
-} from "./styles";
+import { Container, Image, Strong, SubTitle, Title } from "./styles";
 import imageSucess from "@assets/Illustration.png";
 import imageFail from "@assets/Illustration2.png";
 import { useTheme } from "styled-components";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-type Props = FeedbackStyleProps & {};
-
-export function FeedBack({ isSucess = true }: Props) {
+export function FeedBack({ route }) {
+  const { sucess } = route.params;
   const { COLORS } = useTheme();
+  const navigation = useNavigation();
+  function handleNavigationClick(){
+    navigation.navigate("home");
+  }
   return (
     <Container>
-      {isSucess ? (
+      {!sucess ? (
         <>
           <Title>Continue assim!</Title>
           <SubTitle>
@@ -35,7 +32,11 @@ export function FeedBack({ isSucess = true }: Props) {
           <Image source={imageFail} />
         </>
       )}
-      <Button isFeedback title="Ir para a página inicial" />
+      <Button
+        isFeedback
+        title="Ir para a página inicial"
+        onPress={handleNavigationClick}
+      />
     </Container>
   );
 }

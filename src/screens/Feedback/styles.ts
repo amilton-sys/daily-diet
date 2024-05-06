@@ -1,8 +1,5 @@
 import styled, { css } from "styled-components/native";
 
-export type FeedbackStyleProps = {
-  isSucess?: boolean;
-};
 
 export const Container = styled.View`
   flex: 1;
@@ -11,7 +8,7 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Title = styled.Text<FeedbackStyleProps>`
+export const Title = styled.Text`
   margin-bottom: 15px;
   ${({ theme }) => css`
     color: ${theme.COLORS.GREEN_DARK};

@@ -2,18 +2,36 @@ import { MetricsHorizontal } from "@components/MetricsHorizontal";
 import { Container, FormDown, Label } from "./styles";
 import { MetricsVertical } from "@components/MetricsVertical";
 
-export function StatisticContent() {
+type Props = {
+  greatSequence: string;
+  totalSequence: string;
+  meatOut: string;
+  meatIn: string;
+  isLow: boolean;
+};
+
+export function StatisticContent({
+  greatSequence,
+  isLow,
+  meatIn,
+  meatOut,
+  totalSequence,
+}: Props) {
   return (
     <Container>
       <Label>Estatísticas gerais</Label>
       <MetricsHorizontal
-        title="4"
+        title={greatSequence}
         subTitle="melhor sequência de pratos dentro da dieta"
       />
-      <MetricsHorizontal title="109" subTitle="refeições registradas" />
+      <MetricsHorizontal title={totalSequence} subTitle="refeições registradas" />
       <FormDown>
-        <MetricsVertical title="77" subTitle="refeições dentro da dieta" isLow />
-        <MetricsVertical title="32" subTitle="refeições fora da dieta" />
+        <MetricsVertical
+          title={meatIn}
+          subTitle="refeições dentro da dieta"
+          isLow={isLow}
+        />
+        <MetricsVertical title={meatOut} subTitle="refeições fora da dieta" />
       </FormDown>
     </Container>
   );

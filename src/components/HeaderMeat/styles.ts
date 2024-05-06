@@ -29,7 +29,7 @@ export const Icon = styled(ArrowLeft).attrs(({ theme }) => ({
   size: 24,
   color: theme.COLORS.GRAY_200,
 }))`
-  right: 90px;
+  right: 110px;
   position: absolute;
 `;
 

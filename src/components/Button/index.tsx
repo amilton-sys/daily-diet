@@ -1,5 +1,12 @@
 import { TouchableOpacityProps } from "react-native";
-import { Container, Icon, Title, ButtonStyleProps, IconTwo, IconThree } from "./styles";
+import {
+  Container,
+  Icon,
+  Title,
+  ButtonStyleProps,
+  IconTwo,
+  IconThree,
+} from "./styles";
 
 type Props = TouchableOpacityProps &
   ButtonStyleProps & {
@@ -17,7 +24,11 @@ export function Button({
   ...rest
 }: Props) {
   return (
-    <Container isTrashButton={isTrashButton} isFeedback={isFeedback} {...rest}>
+    <Container
+      isTrashButton={isTrashButton}
+      isFeedback={isFeedback}
+      {...rest}
+    >
       {showIcon && <Icon />}
       {editButton && <IconTwo />}
       {isTrashButton && <IconThree />}

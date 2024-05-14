@@ -14,7 +14,11 @@ export function PercenteCard({
   ...rest
 }: Props) {
   return (
-    <Container isLow={isLow} {...rest}>
+    <Container
+      style={{ shadowColor: "black", elevation: 5 }}
+      isLow={isLow}
+      {...rest}
+    >
       <Title>{title}</Title>
       <Icon isLow={isLow} />
       <SubTitle>{subTitle}</SubTitle>

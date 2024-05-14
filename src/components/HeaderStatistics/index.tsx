@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import {
   Container,
   Icon,
@@ -17,12 +18,15 @@ type Props = FilterStyleProps &
 export function HeaderStatistics({
   title,
   subTitle,
-  isLow = false,
-  ...rest
+  isLow
 }: Props) {
+  const navigation = useNavigation();
+  function handleHomeNavigation() {
+    navigation.navigate("home");
+  }
   return (
     <Container isLow={isLow}>
-      <Button {...rest}>
+      <Button onPress={handleHomeNavigation}>
         <Icon isLow={isLow} />
       </Button>
       <Title>{title}</Title>

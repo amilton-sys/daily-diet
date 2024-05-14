@@ -1,29 +1,22 @@
 import { HeaderMeat } from "@components/HeaderMeat";
 import { Container } from "./styles";
 import { MeatContent } from "@components/MeatContent";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { meatCreate } from "@storage/meat/meatCreate";
-import { Alert } from "react-native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
+import { MeatEditByName } from "@storage/meat/meatEditByName";
+import { meatsGetAll } from "@storage/meat/meatsGetAll";
 
-export function NewMeat() {
-  const [option, setOption] = useState("");
+export function EditMeat({ route }) {
   const navigation = useNavigation();
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    date: "",
-    hour: "",
-    isLow: false,
-  });
+  const { meat } = route.params;
+  const [option, setOption] = useState(meat.isLow ? "Não" : "Sim");
+  const [formData, setFormData] = useState(meat);
+
+  function handleNavigationClick() {
+    navigation.goBack();
+  }
 
   const handleChangeText = (name: any, value: any) => {
-    if (name.trim().length === 0) {
-      return Alert.alert(
-        "Criação de Refeição",
-        "O campo de nome não pode estar em branco ou vazio."
-      );
-    }
     setFormData({
       ...formData,
       [name]: value,
@@ -42,10 +35,10 @@ export function NewMeat() {
     navigation.navigate("home");
   }
 
-  async function handleAddNewMeat() {
+  async function handleEditMeat() {
     try {
-      await meatCreate(formData);
-      navigation.navigate("feed", { sucess: formData.isLow });
+      await MeatEditByName(meat.name, formData);
+      navigation.navigate("home");
     } catch (error) {
       console.log(error);
     }
@@ -53,15 +46,20 @@ export function NewMeat() {
 
   return (
     <Container>
-      <HeaderMeat onPress={handleMoveHome} isDefault title="Nova refeição" />
+      <HeaderMeat
+        onPress={handleNavigationClick}
+        isDefault
+        title="Editar Refeição"
+      />
       <MeatContent
+        editing
+        save={handleEditMeat}
         nome={formData.name}
         descricao={formData.description}
         data={formData.date}
         hora={formData.hour}
-        filter={handleFilterChange}
         option={option}
-        newMeat={handleAddNewMeat}
+        filter={handleFilterChange}
         name={(text) => handleChangeText("name", text)}
         description={(text) => handleChangeText("description", text)}
         date={(text) => handleChangeText("date", text)}

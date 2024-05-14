@@ -1,30 +1,60 @@
 import { FlatList } from "react-native";
 import { Container, Input, Label, FormDate, Form } from "./styles";
-import { useState } from "react";
 import { FilterMeat } from "@components/FIlterMeat";
 import { Button } from "@components/Button";
 
-export function MeatContent() {
-  const [option, setOption] = useState("Sim");
+type Props = {
+  name: (text: string) => void;
+  description: (text:string) => void;
+  date: (text: string) => void;
+  hour: (text: string) => void;
+  filter: (fil: string) => void;
+  save?: () => void;
+  newMeat?: () => void;
+  nome: string;
+  descricao: string;
+  data: string;
+  hora: string;
+  editing?: boolean;
+  option: string;
+};
+
+export function MeatContent({
+  name,
+  description,
+  date,
+  hour,
+  filter,
+  save,
+  newMeat,
+  nome,
+  data,
+  descricao,
+  hora,
+  editing = false,
+  option,
+}: Props) {
   return (
     <Container>
       <Label>Nome</Label>
-      <Input autoFocus/>
+      <Input value={nome} onChangeText={name} />
       <Label>Descrição</Label>
       <Input
         textArea
         style={{ textAlignVertical: "top" }}
         numberOfLines={4}
         multiline
+        value={descricao}
+        onChangeText={description}
       />
       <FormDate>
         <Form>
           <Label>Data</Label>
-          <Input date />
+          <Input date value={data} onChangeText={date} />
         </Form>
         <Form>
           <Label>Hora</Label>
-          <Input date />
+          <Input date value={hora} onChangeText={hour} />
         </Form>
       </FormDate>
       <Label>Está dentro da dieta?</Label>
@@ -36,13 +66,17 @@ export function MeatContent() {
             isActive={item === option}
             title={item}
             isLow={item === "Não"}
-            onPress={() => setOption(item)}
+            onPress={() => filter(item)}
           />
         )}
         horizontal
         showsHorizontalScrollIndicator={false}
       />
-      <Button title="Cadastrar refeição" />
+      {editing ? (
+        <Button title="Salvar alterações" onPress={save} />
+      ) : (
+        <Button title="Cadastrar refeição" onPress={newMeat} />
+      )}
     </Container>
   );
 }

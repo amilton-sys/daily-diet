@@ -44,7 +44,7 @@ export function Home() {
 
       // Transforma o objeto em um array de seções
       const sections = Object.keys(groupedMeats).map((date) => ({
-        title: date,
+        title: date.replace("/",".").replace("/","."),
         data: groupedMeats[date],
       }));
 

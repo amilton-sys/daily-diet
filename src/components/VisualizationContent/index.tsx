@@ -15,7 +15,8 @@ type Props = InputStyleProps & {
   title: string;
   subTitle: string;
   dateAndHour: string;
-  onRemove:() => void;
+  onRemove: () => void;
+  onEdit: () => void;
 };
 
 export function VisualizationContent({
@@ -24,6 +25,7 @@ export function VisualizationContent({
   dateAndHour,
   isLow = false,
   onRemove,
+  onEdit,
 }: Props) {
   const { FONT_SIZE } = useTheme();
   return (
@@ -34,10 +36,18 @@ export function VisualizationContent({
       <SubTitle>{dateAndHour}</SubTitle>
       <Button>
         <Icon isLow={isLow} />
-        <ButtonText>fora da dieta</ButtonText>
+        {isLow ? (
+          <ButtonText>fora da dieta</ButtonText>
+        ) : (
+          <ButtonText>dentro da dieta</ButtonText>
+        )}
       </Button>
-      <ComponentButton editButton title="Editar refeição" />
-      <ComponentButton onPress={onRemove} isTrashButton title="Excluir refeição" />
+      <ComponentButton onPress={onEdit} editButton title="Editar refeição" />
+      <ComponentButton
+        onPress={onRemove}
+        isTrashButton
+        title="Excluir refeição"
+      />
     </Container>
   );
 }

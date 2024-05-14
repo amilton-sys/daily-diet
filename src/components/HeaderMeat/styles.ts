@@ -1,13 +1,13 @@
 import styled, { css } from "styled-components/native";
 import { ArrowLeft } from "phosphor-react-native";
-import { TouchableOpacity } from "react-native";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 
 export type VisualizationStyleProps = {
   isLow?: boolean;
   isDefault?: boolean;
 };
 
-export const Container = styled.View<VisualizationStyleProps>`
+export const Container = styled(SafeAreaView)<VisualizationStyleProps>`
   width: 100%;
   height: 120px;
   align-items: center;
@@ -18,18 +18,20 @@ export const Container = styled.View<VisualizationStyleProps>`
       ? theme.COLORS.RED_LIGHT
       : theme.COLORS.GREEN_LIGHT};
   `};
-  ${({ theme, isDefault }) => isDefault && css`
+  ${({ theme, isDefault }) =>
+    isDefault &&
+    css`
       background-color: ${theme.COLORS.GRAY_500};
-  `};
+    `};
 `;
 
 export const Button = styled(TouchableOpacity)``;
 
 export const Icon = styled(ArrowLeft).attrs(({ theme }) => ({
-  size: 24,
+  size: 26,
   color: theme.COLORS.GRAY_200,
 }))`
-  right: 110px;
+  right: 95px;
   position: absolute;
 `;
 

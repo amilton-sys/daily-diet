@@ -1,78 +1,60 @@
 import { FlatList } from "react-native";
 import { Container, Input, Label, FormDate, Form } from "./styles";
-import { useState } from "react";
 import { FilterMeat } from "@components/FIlterMeat";
 import { Button } from "@components/Button";
-import { useNavigation } from "@react-navigation/native";
-import { meatCreate } from "@storage/meat/meatCreate";
 
-export function MeatContent() {
-  const [option, setOption] = useState("");
-  const navigation = useNavigation();
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    date: "",
-    hour: "",
-    isLow: false,
-  });
+type Props = {
+  name: (text: string) => void;
+  description: (text:string) => void;
+  date: (text: string) => void;
+  hour: (text: string) => void;
+  filter: (fil: string) => void;
+  save?: () => void;
+  newMeat?: () => void;
+  nome: string;
+  descricao: string;
+  data: string;
+  hora: string;
+  editing?: boolean;
+  option: string;
+};
 
-  const handleChangeText = (name: any, value: any) => {
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleFilterChange = (value) => {
-    setOption(value);
-    setFormData({
-      ...formData,
-      isLow: value === "Sim" ? false : true,
-    });
-  };
-
-  async function handleAddNewMeat() {
-    try {
-      await meatCreate(formData);
-      navigation.navigate("feed", { sucess: formData.isLow });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
+export function MeatContent({
+  name,
+  description,
+  date,
+  hour,
+  filter,
+  save,
+  newMeat,
+  nome,
+  data,
+  descricao,
+  hora,
+  editing = false,
+  option,
+}: Props) {
   return (
     <Container>
       <Label>Nome</Label>
-      <Input
-        value={formData.name}
-        onChangeText={(text) => handleChangeText("name", text)}
-      />
+      <Input value={nome} onChangeText={name} />
       <Label>Descrição</Label>
       <Input
         textArea
         style={{ textAlignVertical: "top" }}
         numberOfLines={4}
         multiline
-        value={formData.description}
-        onChangeText={(text) => handleChangeText("description", text)}
+        value={descricao}
+        onChangeText={description}
       />
       <FormDate>
         <Form>
           <Label>Data</Label>
-          <Input
-            date
-            value={formData.date}
-            onChangeText={(text) => handleChangeText("date", text)}
-          />
+          <Input date value={data} onChangeText={date} />
         </Form>
         <Form>
           <Label>Hora</Label>
-          <Input
-            date
-            value={formData.hour}
-            onChangeText={(text) => handleChangeText("hour", text)}
-          />
+          <Input date value={hora} onChangeText={hour} />
         </Form>
       </FormDate>
       <Label>Está dentro da dieta?</Label>
@@ -84,13 +66,17 @@ export function MeatContent() {
             isActive={item === option}
             title={item}
             isLow={item === "Não"}
-            onPress={() => handleFilterChange(item)}
+            onPress={() => filter(item)}
           />
         )}
         horizontal
         showsHorizontalScrollIndicator={false}
       />
-      <Button title="Cadastrar refeição" onPress={handleAddNewMeat} />
+      {editing ? (
+        <Button title="Salvar alterações" onPress={save} />
+      ) : (
+        <Button title="Cadastrar refeição" onPress={newMeat} />
+      )}
     </Container>
   );
 }

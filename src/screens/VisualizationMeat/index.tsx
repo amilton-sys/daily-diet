@@ -4,16 +4,18 @@ import { VisualizationContent } from "@components/VisualizationContent";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { meatRemoveByName } from "@storage/meat/meatRemoveByName";
-import { Alert } from "react-native";
+import { CustomAlert } from "@components/CustomAlert";
 
 export function VisualizationMeat({ route }) {
   const navigation = useNavigation();
+  const [showAlert, setShowAlert] = useState(false);
 
   const { meat } = route.params;
   const [meats, setMeats] = useState({
     name: meat.name,
     description: meat.description,
     hour: meat.hour,
+    date: meat.date,
     isLow: meat.isLow,
   });
 
@@ -30,11 +32,16 @@ export function VisualizationMeat({ route }) {
     }
   }
 
-  async function handleMeatRemove(name: string) {
-    Alert.alert("Remover", "Deseja essa comida?", [
-      { text: "Não", style: "cancel" },
-      { text: "Sim", onPress: () => handleRemoveMeat(name) },
-    ]);
+  function handleShowAlert() {
+    setShowAlert(true);
+  }
+
+  function handleCloseAlert() {
+    setShowAlert(false);
+  }
+
+  function handleNavigateEdit() {
+    navigation.navigate("edit", { meat: meat });
   }
 
   return (
@@ -44,12 +51,19 @@ export function VisualizationMeat({ route }) {
         title="Refeição"
         isLow={meats.isLow}
       />
+
       <VisualizationContent
         title={meats.name}
         subTitle={meats.description}
-        dateAndHour={meats.hour}
+        dateAndHour={`${meats.date} às ${meats.hour}`}
         isLow={meats.isLow}
-        onRemove={() => handleMeatRemove(meats.name)}
+        onRemove={() => handleShowAlert()}
+        onEdit={handleNavigateEdit}
+      />
+      <CustomAlert
+        isVisible={showAlert}
+        onClose={handleCloseAlert}
+        onConfirm={() => handleRemoveMeat(meats.name)}
       />
     </Container>
   );
